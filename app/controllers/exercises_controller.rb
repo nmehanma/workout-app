@@ -20,7 +20,7 @@ class ExercisesController < ApplicationController
       flash[:notice] = "Exercise has been created"
       redirect_to [current_user, @exercise]
     else
-      flash[:alert] = "Exercsie has not been created"
+      flash[:alert] = "Exercise has not been created"
       render :new
     end
 
