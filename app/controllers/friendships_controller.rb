@@ -1,6 +1,11 @@
 class FriendshipsController < ApplicationController
 
   before_action :authenticate_user!
+  def show
+
+    @friend = Friendship.find(params[:id]).friend
+    @exercises = @friend.exercises
+  end
 
   def create
     friend = User.find(params[:friend_id])
@@ -11,11 +16,19 @@ class FriendshipsController < ApplicationController
     redirect_to root_path
   end
 
-  def show
+  def destroy
+    @friendship = Friendship.find(params[:id])
+    friendname = @friendship.friend.full_name
 
-    @friend = Friendship.find(params[:id]).friend
-    @exercises = @friend.exercises
+    if @friendship.destroy
+      flash[:notice] = "#{friendname} unfollowed."
+            
+    else
+      flash.now[:alert] = "#{friendname} could not be unfollowed."
+    end
+    redirect_to user_exercises_path(current_user)
   end
+
 
 
   private
